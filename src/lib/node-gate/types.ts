@@ -3,17 +3,16 @@ export interface NodeGateInput {
   mode?: string;
 }
 
+export interface NodeGateMetadata {
+  timestamp: string;
+  version: string;
+}
+
 export interface NodeGateOutput {
   success: boolean;
   mode: string;
-  input: string;
-  output: {
-    analysis: string;
-    confidence: number;
-    suggestions: string[];
-  };
-  timestamp: string;
-  processingTime: number;
+  result: string;
+  metadata: NodeGateMetadata;
 }
 
 export type NodeGateMode = 'standard' | 'advanced' | 'minimal';
