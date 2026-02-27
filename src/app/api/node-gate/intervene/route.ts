@@ -18,14 +18,11 @@ import type { NodeGateInput } from '@/lib/node-gate/types';
  * {
  *   success: boolean,
  *   mode: string,
- *   input: string,
- *   output: {
- *     analysis: string,
- *     confidence: number,
- *     suggestions: string[]
- *   },
- *   timestamp: string,
- *   processingTime: number
+ *   result: string,
+ *   metadata: {
+ *     timestamp: string,
+ *     version: string
+ *   }
  * }
  */
 export async function POST(request: NextRequest): Promise<NextResponse> {
@@ -44,8 +41,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       return NextResponse.json(
         {
           success: false,
+          mode: 'standard',
+          result: '',
+          metadata: {
+            timestamp: new Date().toISOString(),
+            version: '1.0.0',
+          },
           error: 'Invalid JSON in request body',
-          timestamp: new Date().toISOString(),
         },
         { status: 400 }
       );
@@ -59,8 +61,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json(
       {
         success: false,
+        mode: 'standard',
+        result: '',
+        metadata: {
+          timestamp: new Date().toISOString(),
+          version: '1.0.0',
+        },
         error: errorMessage,
-        timestamp: new Date().toISOString(),
       },
       { status: 500 }
     );
