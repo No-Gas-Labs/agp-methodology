@@ -1,6 +1,11 @@
 import type { NodeGateInput, NodeGateOutput, NodeGateMode } from './types';
 
 /**
+ * Version of the NodeGate engine
+ */
+export const ENGINE_VERSION = '1.0.0';
+
+/**
  * Validates the input for the NodeGate engine
  * @throws {Error} If input is invalid
  */
@@ -34,50 +39,30 @@ function normalizeMode(mode?: string): NodeGateMode {
 
 /**
  * Performs the actual analysis based on the input and mode
+ * Returns a string result as required by the API contract
  */
-function performAnalysis(input: string, mode: NodeGateMode): NodeGateOutput['output'] {
+function performAnalysis(input: string, mode: NodeGateMode): string {
   const baseAnalysis = `Analyzed input: "${input.substring(0, 100)}${input.length > 100 ? '...' : ''}"`;
   
   switch (mode) {
     case 'minimal':
-      return {
-        analysis: `${baseAnalysis} (minimal mode)`,
-        confidence: 0.7,
-        suggestions: ['Consider providing more context'],
-      };
+      return `${baseAnalysis} (minimal mode)`;
     
     case 'advanced':
-      return {
-        analysis: `${baseAnalysis} (advanced mode with deep analysis)`,
-        confidence: 0.95,
-        suggestions: [
-          'Expand on key points',
-          'Consider alternative perspectives',
-          'Add supporting evidence',
-        ],
-      };
+      return `${baseAnalysis} (advanced mode with deep analysis)`;
     
     case 'standard':
     default:
-      return {
-        analysis: `${baseAnalysis} (standard mode)`,
-        confidence: 0.85,
-        suggestions: [
-          'Review for clarity',
-          'Consider additional details',
-        ],
-      };
+      return `${baseAnalysis} (standard mode)`;
   }
 }
 
 /**
  * Main analysis function for the NodeGate engine
  * @param input - The input to analyze
- * @returns Structured analysis result
+ * @returns Structured analysis result matching the required API contract
  */
 export async function analyze(input: NodeGateInput): Promise<NodeGateOutput> {
-  const startTime = Date.now();
-  
   // Validate input
   validateInput(input);
   
@@ -85,17 +70,16 @@ export async function analyze(input: NodeGateInput): Promise<NodeGateOutput> {
   const mode = normalizeMode(input.mode);
   
   // Perform analysis
-  const output = performAnalysis(input.input, mode);
-  
-  const processingTime = Date.now() - startTime;
+  const result = performAnalysis(input.input, mode);
   
   return {
     success: true,
     mode,
-    input: input.input,
-    output,
-    timestamp: new Date().toISOString(),
-    processingTime,
+    result,
+    metadata: {
+      timestamp: new Date().toISOString(),
+      version: ENGINE_VERSION,
+    },
   };
 }
 
