@@ -20,10 +20,10 @@ describe('NodeGate Engine', () => {
       
       expect(result).toHaveProperty('success');
       expect(result).toHaveProperty('mode');
-      expect(result).toHaveProperty('input');
-      expect(result).toHaveProperty('output');
-      expect(result).toHaveProperty('timestamp');
-      expect(result).toHaveProperty('processingTime');
+      expect(result).toHaveProperty('result');
+      expect(result).toHaveProperty('metadata');
+      expect(result.metadata).toHaveProperty('timestamp');
+      expect(result.metadata).toHaveProperty('version');
     });
 
     it('should have correct types for all fields', async () => {
@@ -31,10 +31,15 @@ describe('NodeGate Engine', () => {
       
       expect(typeof result.success).toBe('boolean');
       expect(typeof result.mode).toBe('string');
-      expect(typeof result.input).toBe('string');
-      expect(typeof result.output).toBe('object');
-      expect(typeof result.timestamp).toBe('string');
-      expect(typeof result.processingTime).toBe('number');
+      expect(typeof result.result).toBe('string');
+      expect(typeof result.metadata).toBe('object');
+      expect(typeof result.metadata.timestamp).toBe('string');
+      expect(typeof result.metadata.version).toBe('string');
+    });
+
+    it('should include version in metadata', async () => {
+      const result = await analyze({ input: 'test input' });
+      expect(result.metadata.version).toBe('1.0.0');
     });
   });
 
@@ -54,14 +59,15 @@ describe('NodeGate Engine', () => {
   });
 
   describe('processing behavior', () => {
-    it('should include processing time in response', async () => {
+    it('should include ISO timestamp in metadata', async () => {
       const result = await analyze({ input: 'test input' });
-      expect(result.processingTime).toBeGreaterThanOrEqual(0);
+      expect(() => new Date(result.metadata.timestamp)).not.toThrow();
     });
 
-    it('should include ISO timestamp', async () => {
+    it('should return result as string', async () => {
       const result = await analyze({ input: 'test input' });
-      expect(() => new Date(result.timestamp)).not.toThrow();
+      expect(typeof result.result).toBe('string');
+      expect(result.result.length).toBeGreaterThan(0);
     });
   });
 });

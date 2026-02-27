@@ -16,10 +16,11 @@ describe('NodeGate Intervene Proxy Logic', () => {
       const mockResponse = {
         success: true,
         mode: 'standard',
-        input: 'test input',
-        output: { analysis: 'result', confidence: 0.85, suggestions: [] },
-        timestamp: new Date().toISOString(),
-        processingTime: 100,
+        result: 'Analyzed input: "test input" (standard mode)',
+        metadata: {
+          timestamp: new Date().toISOString(),
+          version: '1.0.0',
+        },
       };
       
       vi.mocked(analyze).mockResolvedValue(mockResponse);
@@ -34,10 +35,11 @@ describe('NodeGate Intervene Proxy Logic', () => {
       const mockResponse = {
         success: true,
         mode: 'advanced',
-        input: 'test input',
-        output: { analysis: 'result', confidence: 0.95, suggestions: [] },
-        timestamp: new Date().toISOString(),
-        processingTime: 100,
+        result: 'Analyzed input: "test input" (advanced mode with deep analysis)',
+        metadata: {
+          timestamp: new Date().toISOString(),
+          version: '1.0.0',
+        },
       };
       
       vi.mocked(analyze).mockResolvedValue(mockResponse);
@@ -62,10 +64,11 @@ describe('NodeGate Intervene Proxy Logic', () => {
       const mockResponse = {
         success: true,
         mode: 'standard',
-        input: 'test input',
-        output: { analysis: 'result', confidence: 0.85, suggestions: [] },
-        timestamp: new Date().toISOString(),
-        processingTime: 100,
+        result: 'Analyzed input: "test input" (standard mode)',
+        metadata: {
+          timestamp: new Date().toISOString(),
+          version: '1.0.0',
+        },
       };
       
       vi.mocked(analyze).mockResolvedValue(mockResponse);
@@ -74,10 +77,10 @@ describe('NodeGate Intervene Proxy Logic', () => {
       
       expect(result).toHaveProperty('success');
       expect(result).toHaveProperty('mode');
-      expect(result).toHaveProperty('input');
-      expect(result).toHaveProperty('output');
-      expect(result).toHaveProperty('timestamp');
-      expect(result).toHaveProperty('processingTime');
+      expect(result).toHaveProperty('result');
+      expect(result).toHaveProperty('metadata');
+      expect(result.metadata).toHaveProperty('timestamp');
+      expect(result.metadata).toHaveProperty('version');
     });
   });
 });
