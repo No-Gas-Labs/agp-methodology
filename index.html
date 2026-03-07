@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A Systems-Level Diagnosis of Hybrid Cognition">
+    <meta name="author" content="Damien Edward Featherstone">
+    <meta name="keywords" content="hybrid cognition, systems theory, AI collaboration, operational intelligence, methodology">
+    <meta property="og:title" content="America's Got Problems">
+    <meta property="og:description" content="A Systems-Level Diagnosis of Hybrid Cognition">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://agp-methodology.vercel.app">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="America's Got Problems">
+    <meta name="twitter:description" content="A Systems-Level Diagnosis of Hybrid Cognition">
+    <title>America's Got Problems: A Systems-Level Diagnosis of Hybrid Cognition</title>
+    <link rel="canonical" href="https://agp-methodology.vercel.app">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #0F172A;
+            color: #E2E8F0;
+            font-family: 'Source Serif 4', Georgia, serif;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap');
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Inter', system-ui, sans-serif;
+            font-weight: 700;
+            color: #E2E8F0;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.01em;
+        }
+
+        h3 {
+            font-size: 1.75rem;
+            line-height: 1.3;
+            margin-bottom: 1rem;
+        }
+
+        h4 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        a {
+            color: #38BDF8;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: #22D3EE;
+        }
+
+        section {
+            padding: 6rem 2rem;
+            max-width: 56rem;
+            margin: 0 auto;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.1);
+        }
+
+        section:last-child {
+            border-bottom: none;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #1E293B;
+        }
+
+        nav > div {
+            max-width: 56rem;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        nav .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #38BDF8;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+
+        nav a {
+            margin-left: 2rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+
+        .section-number {
+            font-family: 'Inter', system-ui, sans-serif;
+            font-weight: 700;
+            color: #38BDF8;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .citation-block {
+            font-style: italic;
+            color: #94A3B8;
+            margin: 2rem 0;
+            padding-left: 1.5rem;
+            border-left: 3px solid #38BDF8;
+        }
+
+        .metadata-section {
+            background-color: rgba(56, 189, 248, 0.05);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin: 2rem 0;
+            font-size: 0.875rem;
+            color: #CBD5E1;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .card {
+            padding: 1.5rem;
+            background-color: #1E293B;
+            border-left: 4px solid #38BDF8;
+            border-radius: 0.375rem;
+        }
+
+        .card h4 {
+            color: #38BDF8;
+            margin-bottom: 0.75rem;
+        }
+
+        .card p {
+            font-size: 0.875rem;
+            color: #CBD5E1;
+        }
+
+        blockquote {
+            border-left: 3px solid #38BDF8;
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+            color: #CBD5E1;
+            font-style: italic;
+            font-size: 1.25rem;
+            line-height: 1.8;
+        }
+
+        button, .btn {
+            font-family: 'Inter', system-ui, sans-serif;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            border: 1px solid #38BDF8;
+            background-color: transparent;
+            color: #38BDF8;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            display: inline-block;
+            text-decoration: none;
+            margin-right: 1rem;
+        }
+
+        button:hover, .btn:hover {
+            background-color: rgba(56, 189, 248, 0.1);
+            color: #22D3EE;
+        }
+
+        button.primary, .btn.primary {
+            background-color: #38BDF8;
+            color: #0F172A;
+            border-color: #38BDF8;
+        }
+
+        button.primary:hover, .btn.primary:hover {
+            background-color: #22D3EE;
+            border-color: #22D3EE;
+        }
+
+        audio {
+            width: 100%;
+            margin: 1.5rem 0;
+        }
+
+        code {
+            background-color: #1E293B;
+            color: #38BDF8;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+        }
+
+        footer {
+            padding: 3rem 2rem;
+            background-color: #1E293B;
+            border-top: 1px solid #334155;
+        }
+
+        footer > div {
+            max-width: 56rem;
+            margin: 0 auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+            font-size: 0.875rem;
+        }
+
+        footer h4 {
+            color: #38BDF8;
+            margin-bottom: 1rem;
+        }
+
+        footer p {
+            color: #94A3B8;
+            margin-bottom: 0.5rem;
+        }
+
+        footer a {
+            color: #94A3B8;
+        }
+
+        footer a:hover {
+            color: #38BDF8;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #334155;
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: #64748B;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .step {
+            text-align: center;
+        }
+
+        .step-number {
+            width: 3rem;
+            height: 3rem;
+            background-color: #38BDF8;
+            color: #0F172A;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin: 0 auto 0.75rem;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+
+        .step h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .step p {
+            font-size: 0.75rem;
+            color: #94A3B8;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .steps {
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            }
+
+            nav a {
+                margin-left: 1rem;
+                font-size: 0.75rem;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div>
+            <div class="logo">AGP</div>
+            <div>
+                <a href="#methodology">Methodology</a>
+                <a href="#audio">Audio</a>
+                <a href="#archive">Archive</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="animate-fade-in">
+        <div class="section-number">Publication</div>
+        <h1>America's Got Problems</h1>
+        <p style="font-size: 1.5rem; color: #94A3B8; font-style: italic; margin-bottom: 2rem;">A Systems-Level Diagnosis of Hybrid Cognition</p>
+        
+        <div class="citation-block">
+            Featherstone, Damien Edward. America's Got Problems: A Systems-Level Diagnosis of Hybrid Cognition. Version 1.0, March 2026.
+        </div>
+
+        <p style="font-size: 1.125rem; line-height: 1.8; max-width: 42rem;">
+            This work demonstrates a structured approach to hybrid cognition where multiple AI systems are orchestrated under human guidance. Iterative integration across narrative, operational, and analytical domains produces outputs exceeding the capabilities of any single AI or unaided human reasoning. Designed for constrained environments, this methodology enables rapid, high-fidelity decision-making.
+        </p>
+
+        <div style="margin-top: 2rem;">
+            <a href="#audio" class="btn primary">▶ Listen</a>
+            <a href="https://d2xsxph8kpxj0f.cloudfront.net/310519663290410840/HyGdzmg3GE9L4M3aWYLZ3Y/hybrid_cognition_presentation_052bdfcf.wav" class="btn" download>⬇ Download Audio</a>
+        </div>
+    </section>
+
+    <!-- I. Problem Framing -->
+    <section>
+        <div class="section-number">I. Problem Framing</div>
+        <h2>The Problem Damien Tackles</h2>
+        
+        <p>Conventional AI use is limited: single-task, narrow outputs, human must integrate manually. Complex problems require cross-domain reasoning, strategy synthesis, and operational intelligence.</p>
+        <p>Damien's goal: demonstrate human-AI hybrid cognition that produces actionable, high-value outputs beyond normal human or AI capacity.</p>
+    </section>
+
+    <!-- II. Hybrid Cognition Model -->
+    <section id="methodology">
+        <div class="section-number">II. Hybrid Cognition Model</div>
+        <h2>Multi-AI Orchestration</h2>
+        
+        <p style="color: #94A3B8;">Method: Coordinates multiple AI systems in parallel to produce insights along complementary dimensions.</p>
+
+        <div class="grid">
+            <div class="card">
+                <h4>Model A</h4>
+                <p style="font-weight: 600; margin-bottom: 0.5rem;">Risk Analysis</p>
+                <p>6 high-probability failure points + mitigation</p>
+            </div>
+            <div class="card">
+                <h4>Model B</h4>
+                <p style="font-weight: 600; margin-bottom: 0.5rem;">Narrative Strategy</p>
+                <p>3 framing options with projected impact</p>
+            </div>
+            <div class="card">
+                <h4>Model C</h4>
+                <p style="font-weight: 600; margin-bottom: 0.5rem;">Operational Design</p>
+                <p>Stepwise execution plan + dependencies</p>
+            </div>
+            <div class="card">
+                <h4>Model D</h4>
+                <p style="font-weight: 600; margin-bottom: 0.5rem;">Stakeholder Mapping</p>
+                <p>Influence map + leverage points</p>
+            </div>
+        </div>
+
+        <div class="metadata-section">
+            <strong>Result:</strong> Damien synthesizes all streams into one integrated, actionable strategy.
+        </div>
+
+        <h3>The Hybrid Cognition Methodology</h3>
+        <p style="color: #94A3B8;">A structured framework for integrating multiple AI systems with human judgment.</p>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h4>Amalgamate</h4>
+                <p>AI outputs from multiple streams</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h4>Apply</h4>
+                <p>Recursive human-AI feedback loops</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h4>Resolve</h4>
+                <p>Conflicts with dynamic reconciliation</p>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <h4>Translate</h4>
+                <p>Abstract reasoning into operations</p>
+            </div>
+            <div class="step">
+                <div class="step-number">5</div>
+                <h4>Record</h4>
+                <p>Meta-learning lessons for improvement</p>
+            </div>
+        </div>
+
+        <div class="metadata-section">
+            <strong>Value:</strong> Produces results beyond what either human or AI could achieve alone.
+        </div>
+    </section>
+
+    <!-- III. Operational Framework -->
+    <section>
+        <div class="section-number">III. Operational Framework</div>
+        <h2>Operational Intelligence Example</h2>
+        
+        <div class="grid">
+            <div>
+                <h3 style="color: #38BDF8;">Scenario</h3>
+                <p style="color: #94A3B8;">Mobile-only, limited resources, high-attention environment.</p>
+            </div>
+            <div>
+                <h3 style="color: #38BDF8;">Process</h3>
+                <ul style="color: #94A3B8; list-style: none; padding: 0;">
+                    <li>• Decompose problem into independent axes</li>
+                    <li>• Generate parallel AI solutions with risk scoring</li>
+                    <li>• Compare scenarios and weight outcomes</li>
+                    <li>• Synthesize compact, executable blueprint</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="metadata-section">
+            <strong>Outcome:</strong> Actionable strategy that can be implemented immediately — fully traceable and reproducible.
+        </div>
+    </section>
+
+    <!-- IV. Intellectual Contribution -->
+    <section>
+        <div class="section-number">IV. Intellectual Contribution</div>
+        <h2>Original Methodology</h2>
+        
+        <blockquote>
+            This work demonstrates a structured approach to hybrid cognition where multiple AI systems are orchestrated under human guidance. Iterative integration across narrative, operational, and analytical domains produces outputs exceeding the capabilities of any single AI or unaided human reasoning.
+        </blockquote>
+
+        <div class="metadata-section">
+            <strong>Takeaway:</strong> Damien is creating new methodology and knowledge — not just using AI.
+        </div>
+    </section>
+
+    <!-- V. Key Takeaways -->
+    <section>
+        <div class="section-number">V. Key Takeaways</div>
+        <h2>Strategic Implications</h2>
+        
+        <div class="grid">
+            <div class="card">
+                <p>Research-level, self-directed, and operationally impactful</p>
+            </div>
+            <div class="card">
+                <p>Produces structured, reproducible outputs demonstrating advanced hybrid cognition</p>
+            </div>
+            <div class="card">
+                <p>Capable of generating strategic, narrative, and operational insights in real-world contexts</p>
+            </div>
+            <div class="card">
+                <p>Value lies in systems and outputs, not personal circumstances or unconventional presentation</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- VI. Audio Section -->
+    <section id="audio">
+        <div class="section-number">VI. Audio Presentation</div>
+        <h2>Listen to the Methodology</h2>
+        
+        <audio controls>
+            <source src="https://d2xsxph8kpxj0f.cloudfront.net/310519663290410840/HyGdzmg3GE9L4M3aWYLZ3Y/hybrid_cognition_presentation_052bdfcf.wav" type="audio/wav">
+            Your browser does not support the audio element.
+        </audio>
+
+        <div class="metadata-section">
+            <strong>Audio Duration:</strong> ~45 minutes<br>
+            <strong>Format:</strong> WAV, High Quality<br>
+            <strong>SHA256:</strong> <code>f379f1dee6e6edd98236407b77fa9d9b124405ef6dc5136d29df0470c8a24cf0</code>
+        </div>
+    </section>
+
+    <!-- VII. Methodology Archive -->
+    <section id="archive">
+        <div class="section-number">VII. Methodology Archive</div>
+        <h2>Permanent Record & Verification</h2>
+        
+        <div class="metadata-section">
+            <div style="margin-bottom: 1rem;"><strong style="color: #38BDF8;">First Published:</strong> March 2026</div>
+            <div style="margin-bottom: 1rem;"><strong style="color: #38BDF8;">Version:</strong> 1.0</div>
+            <div style="margin-bottom: 1rem;"><strong style="color: #38BDF8;">Repository:</strong> <a href="https://github.com/No-Gas-Labs/agp-methodology">github.com/No-Gas-Labs/agp-methodology</a></div>
+            <div style="margin-bottom: 1rem;"><strong style="color: #38BDF8;">License:</strong> MIT</div>
+            <div style="margin-bottom: 1rem;"><strong style="color: #38BDF8;">Audio Hash (SHA256):</strong> <code>f379f1dee6e6edd98236407b77fa9d9b124405ef6dc5136d29df0470c8a24cf0</code></div>
+            <div style="margin-bottom: 1rem;"><strong style="color: #38BDF8;">Commit Hash:</strong> <code>4265ff9</code></div>
+            <div><strong style="color: #38BDF8;">Wayback Archive:</strong> <a href="https://web.archive.org/web/*/agp-methodology.vercel.app">archive.org/web/</a> (after deployment)</div>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h4>GitHub Repository</h4>
+                <p>Version control and full source code for reproducibility.</p>
+                <a href="https://github.com/No-Gas-Labs/agp-methodology">View Repository →</a>
+            </div>
+
+            <div class="card">
+                <h4>Internet Archive</h4>
+                <p>Permanent snapshot for long-term preservation.</p>
+                <a href="https://web.archive.org/web/*/agp-methodology.vercel.app">View Archive →</a>
+            </div>
+
+            <div class="card">
+                <h4>Audio File</h4>
+                <p>High-quality presentation audio.</p>
+                <a href="https://d2xsxph8kpxj0f.cloudfront.net/310519663290410840/HyGdzmg3GE9L4M3aWYLZ3Y/hybrid_cognition_presentation_052bdfcf.wav" download>Download Audio →</a>
+            </div>
+
+            <div class="card">
+                <h4>Source Code</h4>
+                <p>Complete project with all files.</p>
+                <a href="https://github.com/No-Gas-Labs/agp-methodology/archive/refs/heads/main.zip">Download ZIP →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- VIII. Closing Statement -->
+    <section>
+        <div class="section-number">VIII. Closing</div>
+        <h2>Final Statement</h2>
+        
+        <blockquote>
+            This is not casual experimentation. Damien is actively building hybrid cognition systems, orchestrating AI as coordinated analytical instruments, and producing outputs that are measurable, reproducible, and strategically significant.
+        </blockquote>
+
+        <p style="color: #94A3B8;">
+            Evaluate the work by the intelligence it generates, the frameworks it builds, and the decisions it informs — not by superficial metrics.
+        </p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div>
+            <div class="footer-grid">
+                <div>
+                    <h4>About</h4>
+                    <p>A systems-level diagnosis of hybrid cognition methodology and operational intelligence.</p>
+                </div>
+                <div>
+                    <h4>Quick Links</h4>
+                    <p><a href="#methodology">Methodology</a></p>
+                    <p><a href="#audio">Audio</a></p>
+                    <p><a href="#archive">Archive</a></p>
+                </div>
+                <div>
+                    <h4>Creator</h4>
+                    <p>Damien Edward Featherstone<br>© 2026 All rights reserved.</p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>Version 1.0 | Build: 2026-03-27</p>
+                <div>
+                    <a href="https://github.com/No-Gas-Labs/agp-methodology">GitHub</a> |
+                    <a href="https://github.com/No-Gas-Labs/agp-methodology/blob/main/LICENSE">License</a> |
+                    <a href="mailto:damien@agp.systems">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
