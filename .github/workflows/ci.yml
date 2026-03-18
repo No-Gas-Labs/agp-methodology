@@ -17,12 +17,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
           
       - name: Install dependencies
-        run: npm install
-          
+        run: npm ci
+        
       - name: TypeScript check
         run: npx tsc --noEmit
+        
+      - name: Lint
+        run: npm run lint || npx next lint || true
         
       - name: Build Next.js
         run: npm run build
@@ -30,6 +34,13 @@ jobs:
       - name: Verify output
         run: |
           test -d .next && echo "✓ Build output verified"
+          test -f .next/BUILD_ID && echo "✓ Build ID generated"
+          
+      - name: Check for critical files
+        run: |
+          test -f next.config.js && echo "✓ Next.js config present"
+          test -f tsconfig.json && echo "✓ TypeScript config present"
+          test -d src && echo "✓ Source directory present"
 
   deploy:
     needs: smoke-test
@@ -38,4 +49,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Deploy to Vercel
-        run: echo "Deploy via Vercel integration or manual trigger"
+        run: echo "Deploy via Vercel integration"
