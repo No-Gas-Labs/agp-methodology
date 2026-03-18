@@ -1,9 +1,19 @@
 # America's Got Problems: A Systems-Level Diagnosis of Hybrid Cognition
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/No-Gas-Labs/agp-methodology) [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=1163726601)
+
 **Version:** 1.0  
 **Publication Date:** March 2026  
 **Author:** Damien Edward Featherstone  
 **License:** MIT  
+
+---
+
+## One-Tap Deploy
+
+**Tap the Deploy button above for instant Vercel deployment.**
+
+Or access the live site: **[agp-methodology.vercel.app](https://agp-methodology.vercel.app)**
 
 ---
 
