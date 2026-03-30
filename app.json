@@ -1,0 +1,20 @@
+{
+  "expo": {
+    "name": "AGP Command Center",
+    "slug": "agp-command-center",
+    "version": "1.0.0",
+    "assetBundlePatterns": ["**/*"],
+    "ios": null,
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0a0e27"
+      },
+      "package": "com.nogaslabs.agpcommandcenter"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": ["expo-localization"]
+  }
+}
