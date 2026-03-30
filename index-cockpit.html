@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AGP COCKPIT — Live Control</title>
+  <style>
+    :root {
+      --bg: #060608;
+      --surface: #0c0c10;
+      --border: #1c1c24;
+      --accent: #ff2244;
+      --cyan: #00ffcc;
+      --text: #dddde8;
+      --muted: #44445a;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Share Tech Mono', monospace;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 3px,
+        rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 4px
+      );
+      pointer-events: none;
+      z-index: 10000;
+    }
+
+    header {
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 18px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .logo em { color: var(--cyan); font-style: normal; }
+
+    .hud-bar {
+      display: flex;
+      gap: 20px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .live-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border: 1px solid var(--muted);
+      font-size: 10px;
+      letter-spacing: 3px;
+    }
+
+    .live-pill.on {
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 0 0 12px rgba(255,34,68,0.3);
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--muted);
+    }
+
+    .dot.pulse {
+      background: var(--accent);
+      animation: blink 1s infinite;
+      box-shadow: 0 0 6px var(--accent);
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .main {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      height: calc(100vh - 48px);
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .stage {
+      background: #000;
+      position: relative;
+      overflow: hidden;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .no-signal {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      color: var(--muted);
+    }
+
+    .no-signal-icon {
+      font-size: 56px;
+      opacity: 0.2;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .controls {
+      display: flex;
+      gap: 8px;
+      padding: 12px 20px;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    input {
+      flex: 1;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      padding: 6px 12px;
+      outline: none;
+    }
+
+    input:focus { border-color: var(--cyan); }
+
+    button {
+      padding: 7px 18px;
+      border: 1px solid;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .btn-live {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .btn-live:hover {
+      box-shadow: 0 0 16px rgba(255,34,68,0.5);
+    }
+
+    .btn-stop {
+      background: transparent;
+      border-color: var(--muted);
+      color: var(--muted);
+    }
+
+    .btn-stop:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .panel {
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid var(--border);
+    }
+
+    .panel-section {
+      border-bottom: 1px solid var(--border);
+      padding: 14px;
+    }
+
+    .sec-title {
+      font-size: 9px;
+      letter-spacing: 3px;
+      color: var(--muted);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .feed {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .feed::-webkit-scrollbar { width: 2px; }
+    .feed::-webkit-scrollbar-thumb { background: var(--border); }
+
+    .fi {
+      font-size: 10px;
+      line-height: 1.5;
+      border-left: 2px solid var(--border);
+      padding-left: 6px;
+      color: var(--muted);
+    }
+
+    .fi.sys {
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    .ts {
+      opacity: 0.5;
+      margin-right: 5px;
+    }
+
+    .feed-row {
+      display: flex;
+      gap: 5px;
+      padding: 8px 14px;
+      border-top: 1px solid var(--border);
+    }
+
+    .feed-in {
+      flex: 1;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      padding: 5px 8px;
+      outline: none;
+    }
+
+    .feed-in:focus { border-color: var(--cyan); }
+
+    .feed-tx {
+      padding: 5px 10px;
+      background: transparent;
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      cursor: pointer;
+      letter-spacing: 1px;
+    }
+
+    .metrics-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 5px;
+    }
+
+    .metric-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 7px 8px;
+      text-align: center;
+    }
+
+    .metric-val {
+      font-size: 20px;
+      color: var(--cyan);
+      line-height: 1;
+    }
+
+    .metric-lbl {
+      font-size: 8px;
+      letter-spacing: 2px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">AGP <em>COCKPIT</em></div>
+  <div class="hud-bar">
+    <span id="uptimeHud">00:00:00</span>
+    <div class="live-pill" id="livePill">
+      <div class="dot" id="liveDot"></div>
+      <span id="liveLabel">OFFLINE</span>
+    </div>
+  </div>
+</header>
+
+<div class="main">
+  <div class="stage" id="stage">
+    <video id="video" autoplay muted playsinline></video>
+    <div class="no-signal" id="noSignal">
+      <div class="no-signal-icon">📡</div>
+      <div>AWAITING SIGNAL</div>
+      <div style="font-size:9px;opacity:0.5;">PRESS GO LIVE TO INITIALIZE</div>
+    </div>
+    <div class="controls">
+      <input type="text" id="epTitle" placeholder="EPISODE // AGP_001: HYBRID COGNITION">
+      <button class="btn-live" onclick="goLive()">🔴 GO LIVE</button>
+      <button class="btn-stop" onclick="stopBroadcast()">■ STOP</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-section">
+      <div class="sec-title">METRICS</div>
+      <div class="metrics-row">
+        <div class="metric-box">
+          <div class="metric-val" id="mFps">0</div>
+          <div class="metric-lbl">FPS</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-val" id="mUptime">0</div>
+          <div class="metric-lbl">SEC</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-val" id="mStatus">—</div>
+          <div class="metric-lbl">STATUS</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feed" id="feed"></div>
+
+    <div class="feed-row">
+      <input type="text" class="feed-in" id="feedIn" placeholder="TRANSMIT..." onkeydown="if(event.key==='Enter')postFeed()">
+      <button class="feed-tx" onclick="postFeed()">TX</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let isLive = false;
+  let stream = null;
+  let startTime = null;
+  let frameCount = 0;
+  let lastFpsTime = Date.now();
+
+  async function goLive() {
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({
+        video: { width: 1280, height: 720, frameRate: 30 },
+        audio: { echoCancellation: true },
+      });
+
+      document.getElementById('video').srcObject = stream;
+      document.getElementById('noSignal').style.display = 'none';
+      document.getElementById('livePill').classList.add('on');
+      document.getElementById('liveDot').classList.add('pulse');
+      document.getElementById('liveLabel').textContent = 'LIVE';
+      document.getElementById('mStatus').textContent = 'ON';
+
+      isLive = true;
+      startTime = Date.now();
+
+      addFeed('[SYSTEM] Broadcast initialized', 'sys');
+
+      setInterval(() => {
+        if (isLive) {
+          frameCount++;
+          const now = Date.now();
+          if (now - lastFpsTime >= 1000) {
+            document.getElementById('mFps').textContent = frameCount;
+            frameCount = 0;
+            lastFpsTime = now;
+          }
+
+          const elapsed = Math.floor((now - startTime) / 1000);
+          document.getElementById('mUptime').textContent = elapsed;
+          document.getElementById('uptimeHud').textContent = formatTime(elapsed);
+        }
+      }, 16);
+    } catch (err) {
+      alert('Camera access required');
+    }
+  }
+
+  function stopBroadcast() {
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
+    }
+    document.getElementById('livePill').classList.remove('on');
+    document.getElementById('liveDot').classList.remove('pulse');
+    document.getElementById('liveLabel').textContent = 'OFFLINE';
+    document.getElementById('mStatus').textContent = '—';
+    document.getElementById('noSignal').style.display = 'flex';
+    isLive = false;
+    addFeed('[SYSTEM] Broadcast ended', 'sys');
+  }
+
+  function postFeed() {
+    const text = document.getElementById('feedIn').value;
+    if (text) {
+      addFeed(text);
+      document.getElementById('feedIn').value = '';
+    }
+  }
+
+  function addFeed(text, type = 'msg') {
+    const feed = document.getElementById('feed');
+    const item = document.createElement('div');
+    item.className = 'fi ' + type;
+    const ts = new Date().toLocaleTimeString();
+    item.innerHTML = `<span class="ts">[${ts}]</span>${text}`;
+    feed.insertBefore(item, feed.firstChild);
+    if (feed.children.length > 50) feed.removeChild(feed.lastChild);
+  }
+
+  function formatTime(seconds) {
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = seconds % 60;
+    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  }
+
+  addFeed('[SYSTEM] AGP Cockpit initialized', 'sys');
+</script>
+
+</body>
+</html>
