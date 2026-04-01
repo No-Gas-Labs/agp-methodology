@@ -1,0 +1,17 @@
+{
+  "name": "AGP Command Center Backend",
+  "description": "Real-time control center for AGP podcast, ARENA analysis, Ninja agents, and DeFi execution",
+  "buildCommand": "npm install",
+  "startCommand": "npm start",
+  "env": "node",
+  "plan": "free",
+  "services": [
+    {
+      "type": "web",
+      "name": "agp-backend",
+      "buildCommand": "npm install",
+      "startCommand": "npm start",
+      "plan": "free"
+    }
+  ]
+}
