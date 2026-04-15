@@ -133,3 +133,7 @@ MIT License — See LICENSE file for details
 ---
 
 **This document represents the canonical intellectual artifact. All versions are tracked in Git with immutable commit history.**
+
+## Ecosystem Integration
+
+This project is a core component of the No-Gas-Labs ecosystem, designed for seamless integration with other NGL agents and services. It follows the principles of hybrid cognition and decentralized operations.
